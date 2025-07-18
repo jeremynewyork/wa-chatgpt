@@ -2,7 +2,7 @@ import os
 import json
 import openai
 import requests
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, Query
 
 app = FastAPI()
 
@@ -12,7 +12,11 @@ WHATSAPP_PHONE_ID = os.environ.get("WHATSAPP_PHONE_ID")
 VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN", "newyork1")
 
 @app.get("/")
-def verify(hub_mode: str = None, hub_verify_token: str = None, hub_challenge: str = None):
+def verify(
+    hub_mode: str = Query(None, alias="hub.mode"),
+    hub_verify_token: str = Query(None, alias="hub.verify_token"),
+    hub_challenge: str = Query(None, alias="hub.challenge")
+):
     print("DEBUG hub_mode:", hub_mode)
     print("DEBUG hub_verify_token (from GET):", hub_verify_token)
     print("DEBUG VERIFY_TOKEN (from env):", VERIFY_TOKEN)
