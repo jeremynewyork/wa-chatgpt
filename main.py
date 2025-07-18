@@ -13,6 +13,10 @@ VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN", "newyork1")
 
 @app.get("/")
 def verify(hub_mode: str = None, hub_verify_token: str = None, hub_challenge: str = None):
+    print("DEBUG hub_mode:", hub_mode)
+    print("DEBUG hub_verify_token (from GET):", hub_verify_token)
+    print("DEBUG VERIFY_TOKEN (from env):", VERIFY_TOKEN)
+    print("DEBUG hub_challenge:", hub_challenge)
     if hub_mode == "subscribe" and hub_verify_token == VERIFY_TOKEN:
         return Response(content=hub_challenge, media_type="text/plain")
     return Response(content="Verification failed", status_code=403)
